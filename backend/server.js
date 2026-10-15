@@ -46,19 +46,41 @@ app.use((err, req, res, next) => {
 });
 
 // Запуск сервера
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`\n✓ Сервер запущен на http://localhost:${PORT}`);
   console.log(`✓ API доступен на http://localhost:${PORT}/api/tasks`);
   console.log(`✓ Нажмите Ctrl+C для остановки\n`);
 });
 
+// Обработка ошибки занятого порта
+server.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(`\n❌ Ошибка: Порт ${PORT} уже используется`);
+    console.error(`\nДля освобождения порта выполните:\n`);
+    console.error(`Windows: netstat -ano | findstr :${PORT}`);
+    console.error(`         taskkill /F /PID <номер_процесса>\n`);
+    console.error(`Или измените порт в файле .env:\n`);
+    console.error(`PORT=3001\n`);
+    process.exit(1);
+  } else {
+    console.error('Ошибка запуска сервера:', error);
+    process.exit(1);
+  }
+});
+
 // Обработка graceful shutdown
 process.on('SIGTERM', () => {
   console.log('SIGTERM получен. Закрытие сервера...');
-  process.exit(0);
+  server.close(() => {
+    console.log('Сервер остановлен');
+    process.exit(0);
+  });
 });
 
 process.on('SIGINT', () => {
   console.log('\nSIGINT получен. Закрытие сервера...');
-  process.exit(0);
+  server.close(() => {
+    console.log('Сервер остановлен');
+    process.exit(0);
+  });
 });

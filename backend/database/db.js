@@ -10,6 +10,26 @@ class Database {
         console.error('Ошибка подключения к базе данных:', err.message);
       } else {
         console.log('Подключено к базе данных SQLite');
+        this.initTable();
+      }
+    });
+  }
+
+  // Инициализация таблицы при запуске
+  initTable() {
+    this.db.run(`
+      CREATE TABLE IF NOT EXISTS tasks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        completed INTEGER DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `, (err) => {
+      if (err) {
+        console.error('Ошибка создания таблицы:', err.message);
+      } else {
+        console.log('Таблица tasks проверена/создана успешно');
       }
     });
   }
