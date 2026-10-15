@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager - Менеджер задач</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header__title">📝 Task Manager</h1>
+            <p class="header__subtitle">Управляйте своими задачами эффективно</p>
+        </header>
+
+        <main class="main">
+            <!-- Форма добавления задачи -->
+            <section class="task-form">
+                <div class="task-form__wrapper">
+                    <input 
+                        type="text" 
+                        id="taskInput" 
+                        class="task-form__input" 
+                        placeholder="Введите название задачи..."
+                        maxlength="500"
+                    >
+                    <button id="addTaskBtn" class="task-form__button">
+                        Добавить
+                    </button>
+                </div>
+                <div id="formMessage" class="form-message"></div>
+            </section>
+
+            <!-- Поиск и фильтры -->
+            <section class="controls">
+                <div class="search">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        class="search__input" 
+                        placeholder="🔍 Поиск задач..."
+                    >
+                </div>
+                
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">
+                        Все <span id="allCount" class="filter-btn__count">0</span>
+                    </button>
+                    <button class="filter-btn" data-filter="active">
+                        Активные <span id="activeCount" class="filter-btn__count">0</span>
+                    </button>
+                    <button class="filter-btn" data-filter="completed">
+                        Выполненные <span id="completedCount" class="filter-btn__count">0</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Статистика -->
+            <section class="stats">
+                <div class="stats__item">
+                    <span class="stats__label">Всего задач:</span>
+                    <span id="totalTasks" class="stats__value">0</span>
+                </div>
+                <div class="stats__item">
+                    <span class="stats__label">Выполнено:</span>
+                    <span id="completedTasks" class="stats__value">0</span>
+                </div>
+                <div class="stats__item">
+                    <span class="stats__label">Осталось:</span>
+                    <span id="remainingTasks" class="stats__value">0</span>
+                </div>
+            </section>
+
+            <!-- Список задач -->
+            <section class="tasks">
+                <div id="emptyState" class="empty-state">
+                    <p class="empty-state__text">📋 Нет задач</p>
+                    <p class="empty-state__hint">Добавьте свою первую задачу</p>
+                </div>
+                <ul id="taskList" class="task-list"></ul>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 Task Manager. Все права защищены.</p>
+        </footer>
+    </div>
+
+    <!-- Модальное окно редактирования -->
+    <div id="editModal" class="modal">
+        <div class="modal__content">
+            <div class="modal__header">
+                <h2 class="modal__title">Редактировать задачу</h2>
+                <button class="modal__close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal__body">
+                <input 
+                    type="text" 
+                    id="editTaskInput" 
+                    class="modal__input" 
+                    placeholder="Название задачи..."
+                    maxlength="500"
+                >
+                <div id="editMessage" class="form-message"></div>
+            </div>
+            <div class="modal__footer">
+                <button id="cancelEdit" class="modal__button modal__button--secondary">
+                    Отмена
+                </button>
+                <button id="saveEdit" class="modal__button modal__button--primary">
+                    Сохранить
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
